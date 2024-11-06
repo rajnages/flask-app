@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = 'my-flask-app'
         DOCKER_TAG = 'latest'
-        GIT_REPO = 'https://github.com/yourusername/your-repo.git'  // Replace with your repo URL
+        GIT_REPO = 'https://github.com/rajnages/flask-app.git'  // Replace with your repo URL
         GIT_BRANCH = 'main'  // or 'master' depending on your default branch
     }
     
