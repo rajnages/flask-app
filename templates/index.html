@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docker + Jenkins Demo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="logo-container">
+                <div class="logo docker">🐳</div>
+                <div class="logo jenkins">🔧</div>
+            </div>
+            <h1>Docker + Jenkins Pipeline</h1>
+            <p class="status">Status: <span class="badge">Running</span></p>
+            <div class="info-container">
+                <div class="info-item">
+                    <h3>Build Number</h3>
+                    <p>{{ build_number }}</p>
+                </div>
+                <div class="info-item">
+                    <h3>Server Time</h3>
+                    <p>{{ server_time }}</p>
+                </div>
+            </div>
+            <div class="metrics">
+                <div class="metric-item">
+                    <div class="progress-ring">
+                        <div class="progress-circle"></div>
+                    </div>
+                    <p>System Health</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
