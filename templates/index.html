@@ -1,133 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DevOps Pipeline Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
-<body>
-    <div class="container">
-        <nav class="sidebar">
-            <div class="sidebar-header">
-                <i class="fas fa-rocket"></i>
-                <span>DevOps Dashboard</span>
+    <link
+      rel="shortcut icon"
+      href="{{ url_for('static', filename='img/favicon.ico') }}"
+      type="image/x-icon"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/all.min.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+    <!-- Option 1: Use CDN (add this in the head section) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- Option 2: Download and host locally -->
+    <!-- Download from: https://fontawesome.com/download -->
+  </head>
+  <body>
+    <div class="dashboard">
+      <!-- Left Sidebar -->
+      <aside class="sidebar">
+        <div class="logo">
+          <img
+            src="{{ url_for('static', filename='img/logo.png') }}"
+            alt="Logo"
+          />
+          <h2>DevOps Pipeline</h2>
+        </div>
+        <nav class="menu">
+          <a href="#" class="menu-item active">
+            <i class="fas fa-home"></i>
+            <span>Overview</span>
+          </a>
+          <a href="#" class="menu-item">
+            <i class="fas fa-chart-line"></i>
+            <span>Metrics</span>
+          </a>
+          <a href="#" class="menu-item">
+            <i class="fas fa-history"></i>
+            <span>History</span>
+          </a>
+          <a href="#" class="menu-item">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+          </a>
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Top Navigation -->
+        <nav class="top-nav">
+          <div class="search">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search..." />
+          </div>
+          <div class="user">
+            <div class="notifications">
+              <i class="fas fa-bell"></i>
+              <span class="badge">3</span>
             </div>
-            <ul class="nav-links">
-                <li class="active"><i class="fas fa-home"></i> Overview</li>
-                <li><i class="fas fa-chart-line"></i> Metrics</li>
-                <li><i class="fas fa-history"></i> History</li>
-                <li><i class="fas fa-cog"></i> Settings</li>
-            </ul>
+            <div class="profile">
+              <img
+                src="{{ url_for('static', filename='img/default-avatar.png') }}"
+                alt="Profile"
+              />
+              <span>Admin User</span>
+            </div>
+          </div>
         </nav>
 
-        <main class="main-content">
-            <header class="top-bar">
-                <div class="search-bar">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search...">
-                </div>
-                <div class="user-info">
-                    <span class="notification-badge">
-                        <i class="fas fa-bell"></i>
-                        <span class="badge">3</span>
-                    </span>
-                    <div class="user-profile">
-                        <img src="{{ url_for('static', filename='img/default-avatar.png') }}" alt="User">
-                        <span>Admin User</span>
-                    </div>
-                </div>
-            </header>
-
-            <div class="dashboard-grid">
-                <div class="card status-card">
-                    <div class="card-header">
-                        <h3>Pipeline Status</h3>
-                        <span class="status-badge success">Active</span>
-                    </div>
-                    <div class="pipeline-stages">
-                        <div class="stage completed">
-                            <i class="fas fa-code-branch"></i>
-                            <span>Build</span>
-                        </div>
-                        <div class="stage completed">
-                            <i class="fas fa-vial"></i>
-                            <span>Test</span>
-                        </div>
-                        <div class="stage active">
-                            <i class="fas fa-docker"></i>
-                            <span>Deploy</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card metrics-card">
-                    <h3>System Metrics</h3>
-                    <div class="metric-container">
-                        <div class="metric">
-                            <div class="metric-circle">
-                                <svg viewBox="0 0 36 36">
-                                    <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" stroke-dasharray="75, 100"/>
-                                </svg>
-                                <span>75%</span>
-                            </div>
-                            <p>CPU Usage</p>
-                        </div>
-                        <div class="metric">
-                            <div class="metric-circle">
-                                <svg viewBox="0 0 36 36">
-                                    <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" stroke-dasharray="60, 100"/>
-                                </svg>
-                                <span>60%</span>
-                            </div>
-                            <p>Memory</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card info-card">
-                    <h3>Build Information</h3>
-                    <div class="info-grid">
-                        <div class="info-item">
-                            <i class="fas fa-code"></i>
-                            <div>
-                                <h4>Build Number</h4>
-                                <p>{{ build_number }}</p>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <i class="fas fa-clock"></i>
-                            <div>
-                                <h4>Server Time</h4>
-                                <p>{{ server_time }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card logs-card">
-                    <h3>Recent Logs</h3>
-                    <div class="logs-container">
-                        <div class="log-entry">
-                            <span class="log-time">10:45</span>
-                            <span class="log-type success">SUCCESS</span>
-                            <span class="log-message">Pipeline deployment completed</span>
-                        </div>
-                        <div class="log-entry">
-                            <span class="log-time">10:43</span>
-                            <span class="log-type info">INFO</span>
-                            <span class="log-message">Docker container started</span>
-                        </div>
-                        <div class="log-entry">
-                            <span class="log-time">10:42</span>
-                            <span class="log-type info">INFO</span>
-                            <span class="log-message">Building Docker image</span>
-                        </div>
-                    </div>
-                </div>
+        <!-- Dashboard Content -->
+        <div class="content">
+          <!-- Status Overview -->
+          <div class="card status">
+            <div class="card-header">
+              <h3>Pipeline Status</h3>
+              <span class="status-badge">Active</span>
             </div>
-        </main>
+            <div class="pipeline-status">
+              <div class="stage completed">
+                <div class="icon">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <span>Build</span>
+              </div>
+              <div class="stage completed">
+                <div class="icon">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <span>Test</span>
+              </div>
+              <div class="stage active">
+                <div class="icon">
+                  <i class="fas fa-sync-alt fa-spin"></i>
+                </div>
+                <span>Deploy</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Metrics -->
+          <div class="metrics-grid">
+            <div class="card metric">
+              <div class="metric-circle">
+                <svg>
+                  <circle class="bg" cx="60" cy="60" r="54"></circle>
+                  <circle
+                    class="progress"
+                    cx="60"
+                    cy="60"
+                    r="54"
+                    style="--percent: 75"
+                  ></circle>
+                </svg>
+                <div class="percentage">75%</div>
+              </div>
+              <span class="label">CPU Usage</span>
+            </div>
+            <div class="card metric">
+              <div class="metric-circle">
+                <svg>
+                  <circle class="bg" cx="60" cy="60" r="54"></circle>
+                  <circle
+                    class="progress"
+                    cx="60"
+                    cy="60"
+                    r="54"
+                    style="--percent: 60"
+                  ></circle>
+                </svg>
+                <div class="percentage">60%</div>
+              </div>
+              <span class="label">Memory</span>
+            </div>
+          </div>
+
+          <!-- Build Info -->
+          <div class="card info">
+            <h3>Build Information</h3>
+            <div class="info-grid">
+              <div class="info-item">
+                <i class="fas fa-code-branch"></i>
+                <div>
+                  <label>Build Number</label>
+                  <span>{{ build_number }}</span>
+                </div>
+              </div>
+              <div class="info-item">
+                <i class="fas fa-clock"></i>
+                <div>
+                  <label>Server Time</label>
+                  <span>{{ server_time }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Logs -->
+          <div class="card logs">
+            <h3>Recent Logs</h3>
+            <div class="log-entries">
+              <div class="log-entry">
+                <span class="time">10:45</span>
+                <span class="type success">SUCCESS</span>
+                <span class="message">Pipeline deployment completed</span>
+              </div>
+              <div class="log-entry">
+                <span class="time">10:43</span>
+                <span class="type info">INFO</span>
+                <span class="message">Docker container started</span>
+              </div>
+              <div class="log-entry">
+                <span class="time">10:42</span>
+                <span class="type info">INFO</span>
+                <span class="message">Building Docker image</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
-</body>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+  </body>
 </html>
