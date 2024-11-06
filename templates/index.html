@@ -4,37 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DevOps Pipeline Dashboard</title>
-    <link
-      rel="shortcut icon"
-      href="{{ url_for('static', filename='img/favicon.ico') }}"
-      type="image/x-icon"
-    />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/all.min.css') }}"
-    />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/styles.css') }}"
-    />
-    <!-- Option 1: Use CDN (add this in the head section) -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-
-    <!-- Option 2: Download and host locally -->
-    <!-- Download from: https://fontawesome.com/download -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   </head>
   <body>
     <div class="dashboard">
       <!-- Left Sidebar -->
       <aside class="sidebar">
         <div class="logo">
-          <img
-            src="{{ url_for('static', filename='img/logo.png') }}"
-            alt="Logo"
-          />
+          <span class="logo-emoji">🚀</span>
           <h2>DevOps Pipeline</h2>
         </div>
         <nav class="menu">
@@ -71,16 +49,13 @@
               <span class="badge">3</span>
             </div>
             <div class="profile">
-              <img
-                src="{{ url_for('static', filename='img/Profile-Male-PNG.png) }}"
-                alt="Profile"
-              />
+              <span class="profile-emoji">👤</span>
               <span>Admin User</span>
             </div>
           </div>
         </nav>
 
-        <!-- Dashboard Content -->
+        <!-- Rest of the content remains the same -->
         <div class="content">
           <!-- Status Overview -->
           <div class="card status">
@@ -116,13 +91,7 @@
               <div class="metric-circle">
                 <svg>
                   <circle class="bg" cx="60" cy="60" r="54"></circle>
-                  <circle
-                    class="progress"
-                    cx="60"
-                    cy="60"
-                    r="54"
-                    style="--percent: 75"
-                  ></circle>
+                  <circle class="progress" cx="60" cy="60" r="54" style="--percent: 75"></circle>
                 </svg>
                 <div class="percentage">75%</div>
               </div>
@@ -132,13 +101,7 @@
               <div class="metric-circle">
                 <svg>
                   <circle class="bg" cx="60" cy="60" r="54"></circle>
-                  <circle
-                    class="progress"
-                    cx="60"
-                    cy="60"
-                    r="54"
-                    style="--percent: 60"
-                  ></circle>
+                  <circle class="progress" cx="60" cy="60" r="54" style="--percent: 60"></circle>
                 </svg>
                 <div class="percentage">60%</div>
               </div>
@@ -171,26 +134,17 @@
           <div class="card logs">
             <h3>Recent Logs</h3>
             <div class="log-entries">
+              {% for log in logs %}
               <div class="log-entry">
-                <span class="time">10:45</span>
-                <span class="type success">SUCCESS</span>
-                <span class="message">Pipeline deployment completed</span>
+                <span class="time">{{ log.time }}</span>
+                <span class="type {{ log.type }}">{{ log.type|upper }}</span>
+                <span class="message">{{ log.message }}</span>
               </div>
-              <div class="log-entry">
-                <span class="time">10:43</span>
-                <span class="type info">INFO</span>
-                <span class="message">Docker container started</span>
-              </div>
-              <div class="log-entry">
-                <span class="time">10:42</span>
-                <span class="type info">INFO</span>
-                <span class="message">Building Docker image</span>
-              </div>
+              {% endfor %}
             </div>
           </div>
         </div>
       </main>
     </div>
-    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
   </body>
 </html>
