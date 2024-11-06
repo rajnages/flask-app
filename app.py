@@ -13,9 +13,5 @@ def hello():
                          build_number=build_number,
                          server_time=server_time)
 
-@app.route('/health')
-def health():
-    return {"status": "healthy", "timestamp": datetime.now().isoformat()}
-
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
