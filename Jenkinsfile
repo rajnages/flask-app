@@ -24,7 +24,7 @@ pipeline {
                 scannerHome = tool 'SonarScanner'
             }
             steps {
-                withSonarQubeEnv('sonar') {
+                withSonarQubeEnv(credentialsId: 'sonar',installationName: 'SonarScanner') {
                     sh """
                         ${scannerHome}/bin/sonar-scanner \
                         -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
