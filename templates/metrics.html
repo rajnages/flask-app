@@ -1,16 +1,56 @@
-{% extends "index.html" %}
-{% block content %}
-<div class="metrics-container">
-    <h2>Detailed Metrics</h2>
-    <div class="metrics-grid">
-        <div class="metric-card">
-            <h3>CPU Usage</h3>
-            <div class="metric-value">{{ metrics.cpu_usage }}%</div>
-        </div>
-        <div class="metric-card">
-            <h3>Memory Usage</h3>
-            <div class="metric-value">{{ metrics.memory_usage }}%</div>
-        </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metrics - DevOps Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Same Sidebar as index.html -->
+        <nav class="sidebar">
+            <!-- ... sidebar content ... -->
+        </nav>
+
+        <main class="main-content">
+            <header class="header">
+                <!-- ... header content ... -->
+            </header>
+
+            <div class="content">
+                <div class="section-header">
+                    <h2>System Metrics</h2>
+                    <button class="refresh-btn">
+                        <i class="fas fa-sync-alt"></i>
+                        Refresh
+                    </button>
+                </div>
+
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <h3>CPU Usage</h3>
+                            <span class="metric-value">{{ metrics.cpu_usage }}%</span>
+                        </div>
+                        <div class="metric-chart">
+                            <!-- Add chart here if needed -->
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <h3>Memory Usage</h3>
+                            <span class="metric-value">{{ metrics.memory_usage }}%</span>
+                        </div>
+                        <div class="metric-chart">
+                            <!-- Add chart here if needed -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
-</div>
-{% endblock %}
+</body>
+</html>

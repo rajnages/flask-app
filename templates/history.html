@@ -1,15 +1,53 @@
-{% extends "index.html" %}
-{% block content %}
-<div class="history-container">
-    <h2>Deployment History</h2>
-    <div class="history-list">
-        {% for item in history %}
-        <div class="history-item">
-            <span class="date">{{ item.date }}</span>
-            <span class="event">{{ item.event }}</span>
-            <span class="status {{ item.status.lower() }}">{{ item.status }}</span>
-        </div>
-        {% endfor %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History - DevOps Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Same Sidebar as index.html -->
+        <nav class="sidebar">
+            <!-- ... sidebar content ... -->
+        </nav>
+
+        <main class="main-content">
+            <header class="header">
+                <!-- ... header content ... -->
+            </header>
+
+            <div class="content">
+                <div class="section-header">
+                    <h2>Deployment History</h2>
+                    <div class="header-actions">
+                        <button class="filter-btn">
+                            <i class="fas fa-filter"></i>
+                            Filter
+                        </button>
+                    </div>
+                </div>
+
+                <div class="history-list">
+                    {% for item in history %}
+                    <div class="history-item">
+                        <div class="history-status {{ item.status.lower() }}">
+                            <i class="fas fa-circle"></i>
+                        </div>
+                        <div class="history-details">
+                            <h4>{{ item.event }}</h4>
+                            <span class="history-date">{{ item.date }}</span>
+                        </div>
+                        <div class="history-actions">
+                            <button class="view-details-btn">View Details</button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </main>
     </div>
-</div>
-{% endblock %}
+</body>
+</html>
