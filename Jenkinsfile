@@ -7,6 +7,7 @@ pipeline {
         DOCKER_TAG = "${BUILD_NUMBER}"
         GIT_REPO = 'https://github.com/rajnages/flask-app.git'
         GIT_BRANCH = 'main'
+        TRIVY_SEVERITY = 'HIGH,CRITICAL'  // Set severity levels
     }
     
     stages {
@@ -59,6 +60,45 @@ pipeline {
             }
         }
         
+        stage('Security Scan') {
+            steps {
+                script {
+                    // Create results directory
+                    sh 'mkdir -p trivy-results'
+                    
+                    // Run Trivy scan and generate HTML report
+                    sh """
+                        trivy image \
+                            --format template \
+                            --template '@/usr/local/share/trivy/templates/html.tpl' \
+                            --output trivy-results/scan.html \
+                            --severity ${TRIVY_SEVERITY} \
+                            ${DOCKER_IMAGE}:${DOCKER_TAG}
+                    """
+                    
+                    // Run Trivy scan for vulnerabilities (fail build if found)
+                    def exitCode = sh(
+                        script: """
+                            trivy image \
+                                --exit-code 1 \
+                                --severity ${TRIVY_SEVERITY} \
+                                --no-progress \
+                                ${DOCKER_IMAGE}:${DOCKER_TAG}
+                        """,
+                        returnStatus: true
+                    )
+                    
+                    // Archive the scan results
+                    archiveArtifacts artifacts: 'trivy-results/**/*'
+                    
+                    // Fail the build if high or critical vulnerabilities found
+                    if (exitCode == 1) {
+                        error "Security vulnerabilities found in the image"
+                    }
+                }
+            }
+        }
+        
         stage('Deploy & Health Check') {
             steps {
                 script {
@@ -91,6 +131,12 @@ pipeline {
     }
     
     post {
+        success {
+            echo "Security scan passed successfully!"
+        }
+        failure {
+            echo "Security scan failed! Check the Trivy scan results."
+        }
         always {
             sh '''
                 docker logout
