@@ -1,169 +1,215 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Modern DevOps Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <div class="dashboard">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <div class="brand">
-                    <i class="fas fa-layer-group"></i>
-                    <span>DevOps Hub</span>
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <div class="brand">
+            <i class="fas fa-layer-group"></i>
+            <span>DevOps Hub</span>
+          </div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="#" class="nav-item active">
+            <i class="fas fa-home"></i>
+            <span>Overview</span>
+          </a>
+          <a href="#" class="nav-item">
+            <i class="fas fa-chart-line"></i>
+            <span>Metrics</span>
+          </a>
+          <a href="#" class="nav-item">
+            <i class="fas fa-history"></i>
+            <span>History</span>
+          </a>
+          <a href="#" class="nav-item">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+          </a>
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <header class="top-bar">
+          <div class="search">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search..." />
+          </div>
+
+          <div class="top-nav">
+            <button class="notification-btn">
+              <i class="fas fa-bell"></i>
+              <span class="badge">3</span>
+            </button>
+            <div class="user-profile">
+              <img
+                src="https://ui-avatars.com/api/?name=John+Doe"
+                alt="Profile"
+              />
+              <span>John Doe</span>
+            </div>
+          </div>
+        </header>
+
+        <div class="dashboard-content">
+          <!-- Stats Overview -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon success">
+                <i class="fas fa-check-circle"></i>
+              </div>
+              <div class="stat-details">
+                <h3>Successful Builds</h3>
+                <div class="stat-number">2,345</div>
+                <div class="stat-change positive">
+                  <i class="fas fa-arrow-up"></i>
+                  15% from last week
                 </div>
+              </div>
             </div>
 
-            <nav class="sidebar-nav">
-                <a href="#" class="nav-item active">
-                    <i class="fas fa-home"></i>
-                    <span>Overview</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <i class="fas fa-chart-line"></i>
-                    <span>Metrics</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <i class="fas fa-history"></i>
-                    <span>History</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <i class="fas fa-cog"></i>
-                    <span>Settings</span>
-                </a>
-            </nav>
-        </aside>
-
-        <!-- Main Content -->
-        <main class="main-content">
-            <header class="top-bar">
-                <div class="search">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search...">
+            <div class="stat-card">
+              <div class="stat-icon warning">
+                <i class="fas fa-clock"></i>
+              </div>
+              <div class="stat-details">
+                <h3>Build Time</h3>
+                <div class="stat-number">4m 30s</div>
+                <div class="stat-change negative">
+                  <i class="fas fa-arrow-up"></i>
+                  30s slower
                 </div>
-                
-                <div class="top-nav">
-                    <button class="notification-btn">
-                        <i class="fas fa-bell"></i>
-                        <span class="badge">3</span>
-                    </button>
-                    <div class="user-profile">
-                        <img src="https://ui-avatars.com/api/?name=John+Doe" alt="Profile">
-                        <span>John Doe</span>
-                    </div>
-                </div>
-            </header>
-
-            <div class="dashboard-content">
-                <!-- Stats Overview -->
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon success">
-                            <i class="fas fa-check-circle"></i>
-                        </div>
-                        <div class="stat-details">
-                            <h3>Successful Builds</h3>
-                            <div class="stat-number">2,345</div>
-                            <div class="stat-change positive">
-                                <i class="fas fa-arrow-up"></i>
-                                15% from last week
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="stat-card">
-                        <div class="stat-icon warning">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <div class="stat-details">
-                            <h3>Build Time</h3>
-                            <div class="stat-number">4m 30s</div>
-                            <div class="stat-change negative">
-                                <i class="fas fa-arrow-up"></i>
-                                30s slower
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="stat-card">
-                        <div class="stat-icon info">
-                            <i class="fas fa-code-branch"></i>
-                        </div>
-                        <div class="stat-details">
-                            <h3>Active Pipelines</h3>
-                            <div class="stat-number">12</div>
-                            <div class="stat-change positive">
-                                <i class="fas fa-arrow-up"></i>
-                                2 new
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pipeline Status -->
-                <div class="pipeline-section">
-                    <div class="section-header">
-                        <h2>Pipeline Status</h2>
-                        <button class="refresh-btn">
-                            <i class="fas fa-sync-alt"></i>
-                            Refresh
-                        </button>
-                    </div>
-
-                    <div class="pipeline-card">
-                        <div class="pipeline-header">
-                            <div class="branch-info">
-                                <i class="fas fa-code-branch"></i>
-                                <h3>Main Branch</h3>
-                                <span class="status-badge running">Running</span>
-                            </div>
-                            <div class="pipeline-meta">
-                                <span>Build #1234</span>
-                            </div>
-                        </div>
-
-                        <div class="pipeline-stages">
-                            <div class="stage completed">
-                                <div class="stage-icon">
-                                    <i class="fas fa-check"></i>
-                                </div>
-                                <span>Build</span>
-                            </div>
-                            <div class="stage completed">
-                                <div class="stage-icon">
-                                    <i class="fas fa-check"></i>
-                                </div>
-                                <span>Test</span>
-                            </div>
-                            <div class="stage active">
-                                <div class="stage-icon">
-                                    <i class="fas fa-spinner fa-spin"></i>
-                                </div>
-                                <span>Deploy</span>
-                            </div>
-                            <div class="stage">
-                                <div class="stage-icon">
-                                    <i class="fas fa-circle"></i>
-                                </div>
-                                <span>Verify</span>
-                            </div>
-                        </div>
-
-                        <div class="pipeline-footer">
-                            <span class="time-info">Started 5 mins ago</span>
-                            <button class="view-logs-btn">
-                                <i class="fas fa-terminal"></i>
-                                View Logs
-                            </button>
-                        </div>
-                    </div>
-                </div>
+              </div>
             </div>
-        </main>
+
+            <div class="stat-card">
+              <div class="stat-icon info">
+                <i class="fas fa-code-branch"></i>
+              </div>
+              <div class="stat-details">
+                <h3>Active Pipelines</h3>
+                <div class="stat-number">12</div>
+                <div class="stat-change positive">
+                  <i class="fas fa-arrow-up"></i>
+                  2 new
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Replace the existing pipeline section with this -->
+          <div class="pipeline-section">
+            <div class="section-header">
+              <h2>Pipeline Status</h2>
+              <button class="refresh-btn">
+                <i class="fas fa-sync-alt"></i>
+                Refresh
+              </button>
+            </div>
+
+            <div class="pipeline-card">
+              <div class="pipeline-header">
+                <div class="branch-info">
+                  <div class="branch-badge">
+                    <i class="fas fa-code-branch"></i>
+                    <span>main</span>
+                  </div>
+                  <div class="pipeline-status running">
+                    <span class="status-dot"></span>
+                    Running
+                  </div>
+                </div>
+                <div class="pipeline-time">
+                  <i class="far fa-clock"></i>
+                  <span>Duration: 4m 32s</span>
+                </div>
+              </div>
+
+              <div class="pipeline-progress">
+                <div class="stages-wrapper">
+                  <div class="progress-line">
+                    <div class="progress-filled"></div>
+                  </div>
+
+                  <div class="stages">
+                    <div class="stage completed">
+                      <div class="stage-icon">
+                        <i class="fas fa-check"></i>
+                      </div>
+                      <div class="stage-details">
+                        <span class="stage-name">Build</span>
+                        <span class="stage-time">2m 10s</span>
+                      </div>
+                    </div>
+
+                    <div class="stage completed">
+                      <div class="stage-icon">
+                        <i class="fas fa-check"></i>
+                      </div>
+                      <div class="stage-details">
+                        <span class="stage-name">Test</span>
+                        <span class="stage-time">1m 45s</span>
+                      </div>
+                    </div>
+
+                    <div class="stage active">
+                      <div class="stage-icon">
+                        <div class="spinner"></div>
+                      </div>
+                      <div class="stage-details">
+                        <span class="stage-name">Deploy</span>
+                        <span class="stage-time">In Progress</span>
+                      </div>
+                    </div>
+
+                    <div class="stage">
+                      <div class="stage-icon">
+                        <i class="fas fa-circle"></i>
+                      </div>
+                      <div class="stage-details">
+                        <span class="stage-name">Verify</span>
+                        <span class="stage-time">Pending</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="pipeline-footer">
+                <div class="pipeline-info">
+                  <span class="commit-info">
+                    <i class="fas fa-code-commit"></i>
+                    Latest commit: #3a7bd5
+                  </span>
+                  <span class="time-info">
+                    <i class="far fa-clock"></i>
+                    Started 5 mins ago
+                  </span>
+                </div>
+                <button class="view-logs-btn">
+                  <i class="fas fa-terminal"></i>
+                  View Logs
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
-</body>
+  </body>
 </html>
