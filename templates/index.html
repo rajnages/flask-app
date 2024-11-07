@@ -5,94 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DevOps Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="app-container">
-        <!-- Left Sidebar -->
-        <aside class="sidebar">
-            <div class="logo">
-                <i class="fas fa-rocket"></i>
-                <span>DevOps Dashboard</span>
+    <div class="container">
+        <header>
+            <div class="title">
+                <span>🚀 DevOps Dashboard</span>
             </div>
-            
-            <nav class="nav-menu">
-                <a href="#" class="nav-item active">
-                    <i class="fas fa-home"></i>
-                    <span>Overview</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <i class="fas fa-chart-line"></i>
-                    <span>Metrics</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <i class="fas fa-history"></i>
-                    <span>History</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <i class="fas fa-cog"></i>
-                    <span>Settings</span>
-                </a>
+            <nav>
+                <a href="#" class="active">Overview</a>
+                <a href="#">Metrics</a>
+                <a href="#">History</a>
+                <a href="#">Settings</a>
             </nav>
-        </aside>
+        </header>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Pipeline Status Section -->
-            <section class="pipeline-section">
+        <main>
+            <section class="pipeline-status">
                 <div class="section-header">
                     <h2>Pipeline Status</h2>
-                    <button class="refresh-btn">
-                        <i class="fas fa-sync"></i>
-                        Refresh
-                    </button>
+                    <button>↻ Refresh</button>
                 </div>
 
-                <div class="pipeline-card">
-                    <div class="pipeline-header">
-                        <h3>Main Branch</h3>
-                        <span class="status-badge running">Running</span>
-                    </div>
+                <div class="branch-status">
+                    <h3>Main Branch</h3>
+                    <span class="status">Running</span>
+                </div>
 
-                    <div class="pipeline-stages">
-                        <div class="stage completed">
-                            <div class="stage-dot">
-                                <i class="fas fa-check"></i>
-                            </div>
-                            <span>Build</span>
-                        </div>
-                        <div class="stage completed">
-                            <div class="stage-dot">
-                                <i class="fas fa-check"></i>
-                            </div>
-                            <span>Test</span>
-                        </div>
-                        <div class="stage active">
-                            <div class="stage-dot">
-                                <i class="fas fa-spinner fa-spin"></i>
-                            </div>
-                            <span>Deploy</span>
-                        </div>
-                        <div class="stage">
-                            <div class="stage-dot"></div>
-                            <span>Verify</span>
-                        </div>
+                <div class="pipeline-stages">
+                    <div class="stage completed">
+                        <span class="check">✓</span>
+                        <span>Build</span>
                     </div>
+                    <div class="stage completed">
+                        <span class="check">✓</span>
+                        <span>Test</span>
+                    </div>
+                    <div class="stage in-progress">
+                        <span class="loading"></span>
+                        <span>Deploy</span>
+                    </div>
+                    <div class="stage">
+                        <span class="dot"></span>
+                        <span>Verify</span>
+                    </div>
+                </div>
 
-                    <div class="pipeline-footer">
-                        <span>Started 5 mins ago</span>
-                        <button class="view-logs-btn">View Logs</button>
-                    </div>
+                <div class="pipeline-footer">
+                    <span>Started 5 mins ago</span>
+                    <button>View Logs</button>
                 </div>
             </section>
 
-            <!-- Recent Activity Section -->
-            <section class="activity-section">
+            <section class="recent-activity">
                 <div class="section-header">
                     <h2>Recent Activity</h2>
-                    <button class="view-all-btn">View All</button>
+                    <button>View All</button>
                 </div>
-                <!-- Activity items will go here -->
             </section>
         </main>
     </div>
