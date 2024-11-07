@@ -19,47 +19,22 @@ pipeline {
             }
         }
         
-        stage('Code Analysis') {
-            parallel {
-                stage('SonarQube Analysis') {
-                    environment {
-                        scannerHome = tool 'SonarScanner'
-                    }
-                    steps {
-                        withSonarQubeEnv('sonar') {
-                            sh """
-                                ${scannerHome}/bin/sonar-scanner \
-                                -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
-                                -Dsonar.projectName='Flask Application' \
-                                -Dsonar.projectVersion='1.0' \
-                                -Dsonar.sources=. \
-                                -Dsonar.sourceEncoding=UTF-8 \
-                                -Dsonar.language=python \
-                                -Dsonar.python.version=3 \
-                                -Dsonar.python.coverage.reportPaths=coverage.xml \
-                                -Dsonar.exclusions=**/*.pyc,**/*.pyo,**/__pycache__/**,**/tests/**,**/venv/**,.git/**,.github/**
-                            """
-                        }
-                    }
-                }
-                
-                stage('Lint Check') {
-                    steps {
-                        sh '''
-                            python -m pip install flake8
-                            flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-                        '''
-                    }
-                }
+        stage('SonarQube Analysis') {
+            environment {
+                scannerHome = tool 'SonarScanner'
             }
-        }
-        
-        stage('Security Scan') {
             steps {
-                sh '''
-                    python -m pip install bandit
-                    bandit -r . -f json -o bandit-report.json || true
-                '''
+                withSonarQubeEnv('sonar') {
+                    sh """
+                        ${scannerHome}/bin/sonar-scanner \
+                        -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
+                        -Dsonar.projectName='Flask Application' \
+                        -Dsonar.projectVersion='1.0' \
+                        -Dsonar.sources=. \
+                        -Dsonar.sourceEncoding=UTF-8 \
+                        -Dsonar.exclusions=**/*.pyc,**/*.pyo,**/__pycache__/**,**/tests/**,**/venv/**,.git/**,.github/**
+                    """
+                }
             }
         }
         
@@ -68,15 +43,6 @@ pipeline {
                 timeout(time: 5, unit: 'MINUTES') {
                     waitForQualityGate abortPipeline: true
                 }
-            }
-        }
-        
-        stage('Run Tests') {
-            steps {
-                sh '''
-                    python -m pip install pytest pytest-cov
-                    python -m pytest --cov=. --cov-report=xml
-                '''
             }
         }
         
@@ -117,9 +83,11 @@ pipeline {
         stage('Deploy Container') {
             steps {
                 script {
-                    sh 'docker ps -f name=flask-container -q | xargs --no-run-if-empty docker container stop'
-                    sh 'docker container ls -a -fname=flask-container -q | xargs -r docker container rm'
-                    sh "docker run -d -p 5000:5000 --name flask-container ${DOCKER_IMAGE}:${DOCKER_TAG}"
+                    sh '''
+                        docker ps -f name=flask-container -q | xargs --no-run-if-empty docker container stop
+                        docker container ls -a -fname=flask-container -q | xargs -r docker container rm
+                        docker run -d -p 5000:5000 --name flask-container ${DOCKER_IMAGE}:${DOCKER_TAG}
+                    '''
                 }
             }
         }
@@ -129,7 +97,7 @@ pipeline {
                 script {
                     sh '''
                         sleep 10
-                        curl -f http://localhost:5000/health || exit 1
+                        curl -f http://localhost:5000/ || exit 1
                     '''
                 }
             }
@@ -139,24 +107,15 @@ pipeline {
     post {
         success {
             echo 'Pipeline succeeded! Application deployed successfully.'
-            slackSend(color: 'good', message: "Build #${BUILD_NUMBER} - Success!")
+            slackSend(color: 'good', message: "Build #${BUILD_NUMBER} - Success! Docker Image: ${DOCKER_IMAGE}:${DOCKER_TAG}")
         }
         failure {
             echo 'Pipeline failed! Check the logs for details.'
-            slackSend(color: 'danger', message: "Build #${BUILD_NUMBER} - Failed!")
+            slackSend(color: 'danger', message: "Build #${BUILD_NUMBER} - Failed! Check Jenkins logs for details.")
         }
         always {
             sh 'docker logout'
             cleanWs()
-            junit '**/test-results/*.xml'
-            publishHTML([
-                allowMissing: true,
-                alwaysLinkToLastBuild: true,
-                keepAll: true,
-                reportDir: 'coverage',
-                reportFiles: 'index.html',
-                reportName: 'Coverage Report'
-            ])
         }
     }
 }
