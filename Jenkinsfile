@@ -107,7 +107,7 @@ pipeline {
                     sh '''
                         max_retries=6
                         counter=0
-                        until curl -s -f http://localhost:5000/ > /dev/null || [ $counter -eq $max_retries ]
+                        until curl -s -f http://44.211.197.232:5000/ > /dev/null || [ $counter -eq $max_retries ]
                         do
                             counter=$((counter+1))
                             echo "Waiting for application to start... (Attempt: $counter/$max_retries)"
