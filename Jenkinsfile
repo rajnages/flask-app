@@ -19,55 +19,47 @@ pipeline {
             }
         }
         
-        stage('SonarQube Analysis') {
-            environment {
-                scannerHome = tool 'SonarScanner'
-            }
-            steps {
-                withSonarQubeEnv(credentialsId: 'sonar', installationName: 'SonarScanner') {
-                    sh """
-                        ${scannerHome}/bin/sonar-scanner \
-                        -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
-                        -Dsonar.projectName='Flask Application' \
-                        -Dsonar.projectVersion='1.0' \
-                        -Dsonar.sources=. \
-                        -Dsonar.host.url=${SONAR_HOST_URL} \
-                        -Dsonar.sourceEncoding=UTF-8 \
-                        -Dsonar.exclusions=**/*.pyc,**/*.pyo,**/__pycache__/**,**/tests/**,**/venv/**,.git/**,.github/**
-                    """
-                }
-            }
-        }
-        
-        stage('Quality Gate') {
+        stage('SonarQube Analysis & Quality Gate') {
             steps {
                 script {
                     try {
-                        timeout(time: 10, unit: 'MINUTES') {
-                            def qg = waitForQualityGate()
-                            if (qg.status != 'OK') {
-                                echo "Quality Gate failed: ${qg.status}"
-                                currentBuild.result = 'UNSTABLE'
-                            }
+                        // Start SonarQube analysis
+                        withSonarQubeEnv(credentialsId: 'sonar', installationName: 'SonarScanner') {
+                            sh """
+                                ${scannerHome}/bin/sonar-scanner \
+                                -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
+                                -Dsonar.projectName='Flask Application' \
+                                -Dsonar.projectVersion='1.0' \
+                                -Dsonar.sources=. \
+                                -Dsonar.host.url=${SONAR_HOST_URL} \
+                                -Dsonar.sourceEncoding=UTF-8 \
+                                -Dsonar.exclusions=**/*.pyc,**/*.pyo,**/__pycache__/**,**/tests/**,**/venv/**,.git/**,.github/**
+                            """
                         }
+                        
+                        // Start next stages while SonarQube processes
+                        parallel(
+                            qualityGate: {
+                                timeout(time: 5, unit: 'MINUTES') {
+                                    def qg = waitForQualityGate()
+                                    if (qg.status != 'OK') {
+                                        echo "Quality Gate failed: ${qg.status}"
+                                        currentBuild.result = 'UNSTABLE'
+                                    }
+                                }
+                            },
+                            buildImage: {
+                                // Start building Docker image while waiting for Quality Gate
+                                sh """
+                                    docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} .
+                                    docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_IMAGE}:latest
+                                """
+                            }
+                        )
                     } catch (Exception e) {
-                        echo "Quality Gate timed out or failed: ${e.message}"
+                        echo "SonarQube analysis or Quality Gate failed: ${e.message}"
                         currentBuild.result = 'UNSTABLE'
-                    }
-                }
-            }
-        }
-        
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    try {
-                        sh """
-                            docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} .
-                            docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_IMAGE}:latest
-                        """
-                    } catch (Exception e) {
-                        error "Failed to build Docker image: ${e.message}"
+                        // Continue pipeline
                     }
                 }
             }
