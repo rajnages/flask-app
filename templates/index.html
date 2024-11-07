@@ -1,100 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DevOps Pipeline</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+  </head>
+  <body>
     <div class="app-container">
-        <!-- Sidebar -->
-        <nav class="sidebar">
-            <div class="sidebar-header">
-                <i class="fas fa-rocket"></i>
-                <h1>DevOps Pipeline</h1>
+      <!-- Sidebar -->
+      <nav class="sidebar">
+        <div class="sidebar-header">
+          <i class="fas fa-rocket"></i>
+          <h1>DevOps Pipeline</h1>
+        </div>
+        <div class="nav-links">
+          <a
+            href="{{ url_for('index') }}"
+            class="nav-link {{ 'active' if request.endpoint == 'index' }}"
+          >
+            <i class="fas fa-home"></i>
+            <span>Overview</span>
+          </a>
+          <a
+            href="{{ url_for('metrics') }}"
+            class="nav-link {{ 'active' if request.endpoint == 'metrics' }}"
+          >
+            <i class="fas fa-chart-line"></i>
+            <span>Metrics</span>
+          </a>
+          <a
+            href="{{ url_for('history') }}"
+            class="nav-link {{ 'active' if request.endpoint == 'history' }}"
+          >
+            <i class="fas fa-history"></i>
+            <span>History</span>
+          </a>
+          <a
+            href="{{ url_for('settings') }}"
+            class="nav-link {{ 'active' if request.endpoint == 'settings' }}"
+          >
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+          </a>
+        </div>
+      </nav>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <header class="top-bar">
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search..." />
+          </div>
+          <div class="header-right">
+            <div class="notifications">
+              <i class="fas fa-bell"></i>
+              <span class="badge">3</span>
             </div>
-            <div class="nav-links">
-                <a href="#" class="nav-link active">
-                    <i class="fas fa-home"></i>
-                    <span>Overview</span>
-                </a>
-                <a href="#" class="nav-link">
-                    <i class="fas fa-chart-line"></i>
-                    <span>Metrics</span>
-                </a>
-                <a href="#" class="nav-link">
-                    <i class="fas fa-history"></i>
-                    <span>History</span>
-                </a>
-                <a href="#" class="nav-link">
-                    <i class="fas fa-cog"></i>
-                    <span>Settings</span>
-                </a>
+            <div class="user-profile">
+              <i class="fas fa-user-circle"></i>
+              <span>Admin User</span>
             </div>
-        </nav>
+          </div>
+        </header>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <header class="top-bar">
-                <div class="search-box">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search...">
-                </div>
-                <div class="header-right">
-                    <div class="notifications">
-                        <i class="fas fa-bell"></i>
-                        <span class="badge">3</span>
-                    </div>
-                    <div class="user-profile">
-                        <i class="fas fa-user-circle"></i>
-                        <span>Admin User</span>
-                    </div>
-                </div>
-            </header>
+        <div class="dashboard">
+          <!-- Pipeline Status Card -->
+          <div class="card pipeline-card">
+            <div class="card-header">
+              <h2>Pipeline Status</h2>
+              <span class="status-badge active">Active</span>
+            </div>
+            <div class="pipeline-stages">
+              <div class="stage completed">
+                <i class="fas fa-check-circle"></i>
+                <span>Build</span>
+              </div>
+              <div class="stage completed">
+                <i class="fas fa-check-circle"></i>
+                <span>Test</span>
+              </div>
+              <div class="stage in-progress">
+                <i class="fas fa-sync-alt fa-spin"></i>
+                <span>Deploy</span>
+              </div>
+            </div>
+          </div>
 
-            <div class="dashboard">
-                <!-- Pipeline Status Card -->
-                <div class="card pipeline-card">
-                    <div class="card-header">
-                        <h2>Pipeline Status</h2>
-                        <span class="status-badge active">Active</span>
-                    </div>
-                    <div class="pipeline-stages">
-                        <div class="stage completed">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Build</span>
-                        </div>
-                        <div class="stage completed">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Test</span>
-                        </div>
-                        <div class="stage in-progress">
-                            <i class="fas fa-sync-alt fa-spin"></i>
-                            <span>Deploy</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Metrics Cards -->
-                <div class="metrics-container">
-                    <div class="card metric-card">
-                        <div class="metric-circle">
-                            <svg viewBox="0 0 36 36">
-                                <path d="M18 2.0845
+          <!-- Metrics Cards -->
+          <div class="metrics-container">
+            <div class="card metric-card">
+              <div class="metric-circle">
+                <svg viewBox="0 0 36 36">
+                  <path
+                    d="M18 2.0845
                                     a 15.9155 15.9155 0 0 1 0 31.831
                                     a 15.9155 15.9155 0 0 1 0 -31.831"
-                                    stroke-dasharray="75, 100"/>
-                            </svg>
-                            <div class="percentage">75%</div>
-                        </div>
-                        <h3>CPU Usage</h3>
-                    </div>
-                    <!-- Add Memory Usage Card -->
-                </div>
+                    stroke-dasharray="75, 100"
+                  />
+                </svg>
+                <div class="percentage">75%</div>
+              </div>
+              <h3>CPU Usage</h3>
             </div>
-        </main>
+            <!-- Add Memory Usage Card -->
+          </div>
+        </div>
+      </main>
     </div>
-</body>
+  </body>
 </html>

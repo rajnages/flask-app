@@ -1,0 +1,23 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="settings-container">
+    <h2>Settings</h2>
+    <div class="settings-form">
+        <div class="setting-item">
+            <label>Notifications</label>
+            <input type="checkbox" {% if settings.notifications %}checked{% endif %}>
+        </div>
+        <div class="setting-item">
+            <label>Theme</label>
+            <select>
+                <option value="light" {% if settings.theme == 'light' %}selected{% endif %}>Light</option>
+                <option value="dark" {% if settings.theme == 'dark' %}selected{% endif %}>Dark</option>
+            </select>
+        </div>
+        <div class="setting-item">
+            <label>Auto Deploy</label>
+            <input type="checkbox" {% if settings.auto_deploy %}checked{% endif %}>
+        </div>
+    </div>
+</div>
+{% endblock %}

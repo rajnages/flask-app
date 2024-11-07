@@ -1,0 +1,16 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="metrics-container">
+    <h2>Detailed Metrics</h2>
+    <div class="metrics-grid">
+        <div class="metric-card">
+            <h3>CPU Usage</h3>
+            <div class="metric-value">{{ metrics.cpu_usage }}%</div>
+        </div>
+        <div class="metric-card">
+            <h3>Memory Usage</h3>
+            <div class="metric-value">{{ metrics.memory_usage }}%</div>
+        </div>
+    </div>
+</div>
+{% endblock %}

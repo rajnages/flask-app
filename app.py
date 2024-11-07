@@ -1,28 +1,19 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 from datetime import datetime
 import os
 import logging
 
 # Configure logging
-logging.basicConfig(
-    level=logging.DEBUG,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
+logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 
 def get_metrics():
-    """Get basic system metrics"""
-    try:
-        # Mock metrics instead of using psutil
-        return {
-            'cpu_usage': 75,
-            'memory_usage': 60
-        }
-    except Exception as e:
-        logger.error(f"Error getting metrics: {e}")
-        return {'cpu_usage': 0, 'memory_usage': 0}
+    return {
+        'cpu_usage': 75,
+        'memory_usage': 60
+    }
 
 @app.route('/')
 def index():
@@ -37,19 +28,45 @@ def index():
                 {'time': '10:42', 'type': 'info', 'message': 'Building Docker image'}
             ]
         }
-        logger.info("Rendering index template with data")
         return render_template('index.html', **data)
     except Exception as e:
         logger.error(f"Error in index route: {e}")
-        return f"Server Error: {str(e)}", 500
+        return str(e), 500
 
-@app.route('/health')
-def health():
-    return jsonify({
-        'status': 'healthy',
-        'timestamp': datetime.now().isoformat()
-    })
+@app.route('/metrics')
+def metrics():
+    try:
+        metrics_data = get_metrics()
+        return render_template('metrics.html', metrics=metrics_data)
+    except Exception as e:
+        logger.error(f"Error in metrics route: {e}")
+        return str(e), 500
+
+@app.route('/history')
+def history():
+    try:
+        history_data = [
+            {'date': '2024-01-20', 'event': 'Deployment', 'status': 'Success'},
+            {'date': '2024-01-19', 'event': 'Testing', 'status': 'Success'},
+            {'date': '2024-01-18', 'event': 'Build', 'status': 'Failed'}
+        ]
+        return render_template('history.html', history=history_data)
+    except Exception as e:
+        logger.error(f"Error in history route: {e}")
+        return str(e), 500
+
+@app.route('/settings')
+def settings():
+    try:
+        settings_data = {
+            'notifications': True,
+            'theme': 'light',
+            'auto_deploy': False
+        }
+        return render_template('settings.html', settings=settings_data)
+    except Exception as e:
+        logger.error(f"Error in settings route: {e}")
+        return str(e), 500
 
 if __name__ == '__main__':
-    logger.info("Starting Flask application")
     app.run(host='0.0.0.0', port=5000, debug=True)

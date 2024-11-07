@@ -1,0 +1,15 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="history-container">
+    <h2>Deployment History</h2>
+    <div class="history-list">
+        {% for item in history %}
+        <div class="history-item">
+            <span class="date">{{ item.date }}</span>
+            <span class="event">{{ item.event }}</span>
+            <span class="status {{ item.status.lower() }}">{{ item.status }}</span>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
