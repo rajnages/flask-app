@@ -8,14 +8,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="dashboard-container">
-        <!-- Sidebar -->
-        <nav class="sidebar">
+    <div class="app-container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
             <div class="logo">
                 <i class="fas fa-rocket"></i>
                 <span>DevOps Dashboard</span>
             </div>
-            <div class="nav-items">
+            
+            <nav class="nav-menu">
                 <a href="#" class="nav-item active">
                     <i class="fas fa-home"></i>
                     <span>Overview</span>
@@ -32,153 +33,67 @@
                     <i class="fas fa-cog"></i>
                     <span>Settings</span>
                 </a>
-            </div>
-        </nav>
+            </nav>
+        </aside>
 
         <!-- Main Content -->
         <main class="main-content">
-            <!-- Header -->
-            <header class="header">
-                <div class="search-bar">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search...">
+            <!-- Pipeline Status Section -->
+            <section class="pipeline-section">
+                <div class="section-header">
+                    <h2>Pipeline Status</h2>
+                    <button class="refresh-btn">
+                        <i class="fas fa-sync"></i>
+                        Refresh
+                    </button>
                 </div>
-                <div class="user-info">
-                    <div class="notifications">
-                        <i class="fas fa-bell"></i>
-                        <span class="badge">3</span>
-                    </div>
-                    <div class="profile">
-                        <img src="https://ui-avatars.com/api/?name=Admin+User" alt="Profile">
-                        <span>Admin User</span>
-                    </div>
-                </div>
-            </header>
 
-            <!-- Dashboard Content -->
-            <div class="content">
-                <!-- Stats Cards -->
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon success">
-                            <i class="fas fa-check-circle"></i>
-                        </div>
-                        <div class="stat-details">
-                            <h3>Successful Builds</h3>
-                            <div class="stat-value">2,345</div>
-                            <div class="stat-change positive">
-                                <i class="fas fa-arrow-up"></i>
-                                15% from last week
-                            </div>
-                        </div>
+                <div class="pipeline-card">
+                    <div class="pipeline-header">
+                        <h3>Main Branch</h3>
+                        <span class="status-badge running">Running</span>
                     </div>
 
-                    <div class="stat-card">
-                        <div class="stat-icon warning">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <div class="stat-details">
-                            <h3>Average Build Time</h3>
-                            <div class="stat-value">4m 30s</div>
-                            <div class="stat-change negative">
-                                <i class="fas fa-arrow-up"></i>
-                                30s from last week
+                    <div class="pipeline-stages">
+                        <div class="stage completed">
+                            <div class="stage-dot">
+                                <i class="fas fa-check"></i>
                             </div>
+                            <span>Build</span>
+                        </div>
+                        <div class="stage completed">
+                            <div class="stage-dot">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <span>Test</span>
+                        </div>
+                        <div class="stage active">
+                            <div class="stage-dot">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </div>
+                            <span>Deploy</span>
+                        </div>
+                        <div class="stage">
+                            <div class="stage-dot"></div>
+                            <span>Verify</span>
                         </div>
                     </div>
 
-                    <div class="stat-card">
-                        <div class="stat-icon info">
-                            <i class="fas fa-code-branch"></i>
-                        </div>
-                        <div class="stat-details">
-                            <h3>Active Pipelines</h3>
-                            <div class="stat-value">12</div>
-                            <div class="stat-change positive">
-                                <i class="fas fa-arrow-up"></i>
-                                2 from last week
-                            </div>
-                        </div>
+                    <div class="pipeline-footer">
+                        <span>Started 5 mins ago</span>
+                        <button class="view-logs-btn">View Logs</button>
                     </div>
                 </div>
+            </section>
 
-                <!-- Pipeline Status -->
-                <div class="pipeline-container">
-                    <div class="section-header">
-                        <h2>Pipeline Status</h2>
-                        <button class="refresh-btn">
-                            <i class="fas fa-sync-alt"></i>
-                            Refresh
-                        </button>
-                    </div>
-                    <div class="pipeline-card">
-                        <div class="pipeline-header">
-                            <h3>Main Branch</h3>
-                            <span class="status running">Running</span>
-                        </div>
-                        <div class="pipeline-stages">
-                            <div class="stage completed">
-                                <div class="stage-icon">
-                                    <i class="fas fa-check"></i>
-                                </div>
-                                <span>Build</span>
-                            </div>
-                            <div class="stage completed">
-                                <div class="stage-icon">
-                                    <i class="fas fa-check"></i>
-                                </div>
-                                <span>Test</span>
-                            </div>
-                            <div class="stage active">
-                                <div class="stage-icon">
-                                    <i class="fas fa-spinner fa-spin"></i>
-                                </div>
-                                <span>Deploy</span>
-                            </div>
-                            <div class="stage pending">
-                                <div class="stage-icon">
-                                    <i class="fas fa-circle"></i>
-                                </div>
-                                <span>Verify</span>
-                            </div>
-                        </div>
-                        <div class="pipeline-footer">
-                            <span>Started 5 mins ago</span>
-                            <button class="view-logs-btn">View Logs</button>
-                        </div>
-                    </div>
+            <!-- Recent Activity Section -->
+            <section class="activity-section">
+                <div class="section-header">
+                    <h2>Recent Activity</h2>
+                    <button class="view-all-btn">View All</button>
                 </div>
-
-                <!-- Recent Activity -->
-                <div class="activity-container">
-                    <div class="section-header">
-                        <h2>Recent Activity</h2>
-                        <button class="view-all-btn">View All</button>
-                    </div>
-                    <div class="activity-list">
-                        <div class="activity-item">
-                            <div class="activity-icon success">
-                                <i class="fas fa-check-circle"></i>
-                            </div>
-                            <div class="activity-details">
-                                <h4>Deployment Successful</h4>
-                                <p>Production environment updated to version 2.1.0</p>
-                                <span class="activity-time">5 minutes ago</span>
-                            </div>
-                        </div>
-                        <div class="activity-item">
-                            <div class="activity-icon warning">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </div>
-                            <div class="activity-details">
-                                <h4>Build Warning</h4>
-                                <p>High memory usage detected during build process</p>
-                                <span class="activity-time">10 minutes ago</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                <!-- Activity items will go here -->
+            </section>
         </main>
     </div>
 </body>
